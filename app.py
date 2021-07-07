@@ -1,3 +1,4 @@
+# 爬取OA公共信息页面
 from selenium.webdriver import Chrome
 from selenium.webdriver.common.keys import Keys
 import config
@@ -34,9 +35,15 @@ web.find_element_by_xpath('//*[@id="CorpName"]').send_keys(config.query_copm)
 # 清除日期 readonly js脚本
 js0='document.getElementById("IssueTime_0").removeAttribute("readonly")'
 js1='document.getElementById("IssueTime_1").removeAttribute("readonly")'
+# 改变页面条数脚本
+js_changevalue=f'document.querySelector("#griddiv > div > div.pDiv > div.pDiv2 > div:nth-child(1) > select > option:nth-child(7)").value={config.pagesize}'
+js_changetext=f'document.querySelector("#griddiv > div > div.pDiv > div.pDiv2 > div:nth-child(1) > select > option:nth-child(7)").text={config.pagesize}'
 # 执行脚本
 web.execute_script(js0)
 web.execute_script(js1)
+web.execute_script(js_changevalue)
+web.execute_script(js_changetext)
+# 输入查询日期
 web.find_element_by_xpath('//*[@id="IssueTime_0"]').send_keys(config.query_date0)
 web.find_element_by_xpath('//*[@id="IssueTime_1"]').send_keys(config.query_date1)
 # 选择页码

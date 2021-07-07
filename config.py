@@ -8,3 +8,5 @@ query_copm='资产公司'     #查询公司
 year=2021               #查询年份
 query_date0=f'{year}-01-01'
 query_date1=f'{year}-12-31'
+
+pagesize=1000        #自定义查询数据条数
