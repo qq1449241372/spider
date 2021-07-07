@@ -1,3 +1,6 @@
+from logging import fatal
+from os import stat_result
+import numpy as np
 # 职工列表
 stuff_dic={
   # 纪检部
@@ -22,7 +25,13 @@ stuff_dic={
   # 项目部
   "任灿":"项目部",
   "郭军":"项目部",
+  "赵恒":"项目部",
   "朱则彦":"项目部",
+  "唐杰":"项目部",
+  "戚璘":"项目部",
+  "陈学凯":"项目部",
+  "王武":"项目部",
+  "朱金波":"项目部",
   # 房产管理部
   "彭霞":"房地产管理部",
   "丁湛":"房地产管理部",
@@ -34,6 +43,9 @@ stuff_dic={
   "黄鑫":"房地产运营部",
   "胡瑞":"房地产运营部",
   "周围":"房地产运营部",
+  "赵李志":"房地产运营部",
+  "唐陈成":"房地产运营部",
+  "谢浩雨":"房地产运营部",
   "李爱园":"房地产运营部",   #已离职
   # 机械部
   "刘聪志":"机械部",
@@ -42,8 +54,23 @@ stuff_dic={
   "程童":"机械部",
   "徐瑞宜":"机械部",
   "詹海英 ":"机械部",
+  "李孟军 ":"机械部",
 }
-def find_by_dict(name):
-  return stuff_dic.get(name)
+# 获取部门函数
+def get_depart_by_name(name):
+  depart_list=[]
+  name_list=name.split('、')
+  for name in name_list:
+    depart_list.append(stuff_dic.get(name)) 
+  return '、'.join(depart_list)
 
-# print (find_by_dict('杨楚'))
+# 数据超过一定长度需要判断
+# 作者是否正确函数
+def is_author(name):
+  if name in stuff_dic:
+    return True
+  else:
+    return False
+
+name='商务部'
+print(is_author(name))
