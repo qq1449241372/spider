@@ -10,6 +10,7 @@ stuff_dic={
   "夏勉":"办公室",
   "宁浩廷":"办公室",
   "杨楚":"办公室",
+  "机关党支部":"办公室",
   # 财务部
   "吴红维":"财务部",
   "邓红云":"财务部",
@@ -64,13 +65,17 @@ def get_depart_by_name(name):
     depart_list.append(stuff_dic.get(name)) 
   return '、'.join(depart_list)
 
-# 数据超过一定长度需要判断
-# 作者是否正确函数
+# 是否是作者函数
 def is_author(name):
-  if name in stuff_dic:
+  find=0
+  unfind=0
+  name_list=name.split('、')
+  for name in name_list:
+    if name in stuff_dic:
+      find+=1
+    else:
+      unfind+=1
+  if(find==len(name_list)):
     return True
   else:
     return False
-
-name='商务部'
-print(is_author(name))
