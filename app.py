@@ -7,10 +7,10 @@ import time
 import datetime
 import csv
 from func import get_depart_by_name,is_author
-
+# 程序开始时间
+start=time.time()
 now_date = datetime.datetime.now().strftime('%Y-%m-%d')
-created_time=datetime.datetime.now().strftime('%Y-%m-%d%H-%M-%S')
-# print(created_time)
+created_time=datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
 web=Chrome()
 #打开登录界面 
 web.get('http://is.cfmcc.com/OA/MainPage.aspx')
@@ -63,9 +63,9 @@ for tr in tr_list:
   url_list.append(url)
 print(url_list)
 # 写入函数
-f=open(f'./data/{created_time}.csv',mode="w",newline='')
+f=open(f'./data/资产信息平台_{created_time}.csv',mode="w",newline='')
 csvWriter=csv.writer(f)
-# 写入时间
+# 写入第一行
 csvWriter.writerow(['序号','标题','作者','部门','发布时间','点击次数','链接'])
 index=0
 # 遍历文章url获取数据
@@ -111,3 +111,5 @@ for url in url_list:
     csvWriter.writerow(errinfo) 
     print('write done!')
 web.close()
+end=time.time()
+print('用时:%.2f秒'%(end-start))
