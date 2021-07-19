@@ -47,7 +47,7 @@ try:
         raise valid_year()
 except valid_year:
   pass
-print(url_list)
+print(url_list,"\n")
 print(f'{config.year}年资产公司外网文章数量: {len(url_list)}篇')
 # 关闭连接
 resp.close()
@@ -60,13 +60,15 @@ csvWriter.writerow(['序号','标题','作者','部门','发布时间','链接']
 obj2=re.compile(r'<span>作者：(?P<author>.*?)</span>',re.S)
 index=0
 for url in url_list:
+  print(url)
   resp=requests.get(url,headers=headers)
   resp.encoding='utf-8'
   page_content=resp.text
   # print(page_content)
   result=obj2.finditer(page_content)
   for it in result:
-    author=it.group('author').replace(" ", '').strip()
+    author=it.group('author')
+  # print(author)
   depart=get_depart_by_name(author)
   article_list[index].insert(0,index+1)
   article_list[index].insert(2,author)

@@ -1,6 +1,3 @@
-from logging import fatal
-from os import stat_result
-import numpy as np
 # 职工列表
 stuff_dic={
   # 纪检部
@@ -54,13 +51,20 @@ stuff_dic={
   "黄欢":"机械部",
   "程童":"机械部",
   "徐瑞宜":"机械部",
-  "詹海英 ":"机械部",
-  "李孟军 ":"机械部",
+  "詹海英":"机械部",
+  "李孟军":"机械部",
 }
 # 获取部门函数
 def get_depart_by_name(name):
   depart_list=[]
-  name_list=name.split('、')
+  name_list=[]
+  if(name.find('、')!=-1):
+    name_list=name.replace(' ', '') .split('、')
+  elif(name.find(' ')!=-1):
+    name_list=name.split(' ')
+  else:
+    name_list.append(name)
+  print(name_list)
   for name in name_list:
     depart_list.append(stuff_dic.get(name)) 
   return '、'.join(depart_list)
