@@ -98,7 +98,7 @@ for url in url_list:
         if(is_author(span.text.strip())):
           author_span_list.append(span.text)
         # 重点检测最后存在嵌套的span标签
-        if(i==len(span_list) & is_author(span.text.strip())==False):
+        if(i==len(span_list)):
           #第二层span遍历(通常在嵌套span出现在最后一个span)
           inner_span_list=span.find_elements_by_xpath('span')
           for inner_span in inner_span_list:
