@@ -90,9 +90,20 @@ for url in url_list:
       span_list=last_p.find_elements_by_xpath('span')
       # 遍历span_list中<span>的内容
       author_span_list=[]
+      # 指示器
+      i=0
       for span in span_list:
+        #第一层span遍历
+        i=i+1
         if(is_author(span.text.strip())):
           author_span_list.append(span.text)
+        # 重点检测最后存在嵌套的span标签
+        if(i==len(span_list) & is_author(span.text.strip())==False):
+          #第二层span遍历(通常在嵌套span出现在最后一个span)
+          inner_span_list=span.find_elements_by_xpath('span')
+          for inner_span in inner_span_list:
+             if(is_author(inner_span.text.strip())):
+                author_span_list.append(inner_span.text)
         author_span='、'.join(author_span_list).strip()
       author=author_span
     #获取对应数据
