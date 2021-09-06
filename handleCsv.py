@@ -63,7 +63,7 @@ bar=(
     Bar(
       init_opts=opts.InitOpts(theme=ThemeType.SHINE,width="1800px",height='800px'),
       )
-    .set_colors(colors=["#c12e34","#e6b600","#efd2a5","#474f77","#2b821d","#339ca8","#5c2019","#b77760","#525357"])
+    .set_colors(colors=["#cd000e","#e6b600","#efd2a5","#474f77","#2b821d","#339ca8","#5c2019","#b77760","#525357"])
     .add_xaxis(M)
     .add_yaxis("纪检部", count_by_depart["纪检部"])
     .add_yaxis("办公室", count_by_depart["办公室"])
