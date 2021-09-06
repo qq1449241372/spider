@@ -75,7 +75,6 @@ bar=(
     .add_yaxis("房地产运营部", count_by_depart["房地产运营部"])
     .add_yaxis("机械部", count_by_depart["机械部"])
     .set_global_opts(title_opts=opts.TitleOpts(title=f"资产公司信息平台统计_{created_time}", subtitle="文章数量"))
-    .set_global_opts(legend_opts=opts.LegendOpts(type_="scroll"))
     .set_global_opts(datazoom_opts=opts.DataZoomOpts(is_show=True))
 )
 bar.render(f"./charts/信息平台_资产公司_{created_time}.html")

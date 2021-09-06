@@ -39,7 +39,7 @@ try:
       date=it.group("date").replace('[', '').replace(']', '')
       info_list=[title,date,url]
       year=re.findall(u"\d{4}",date)[0]
-      if(year==f'{config.year}'):
+      if(year==f'{config.DEFAULT_YEAR}'):
         url_list.append(url)
         article_list.append(info_list)
         # print(info_list)
@@ -48,7 +48,7 @@ try:
 except valid_year:
   pass
 print(url_list,"\n")
-print(f'{config.year}年资产公司外网文章数量: {len(url_list)}篇')
+print(f'{config.DEFAULT_YEAR}年资产公司外网文章数量: {len(url_list)}篇')
 # 关闭连接
 resp.close()
 # 遍历文章url获取信息

@@ -6,6 +6,7 @@ username='刘聪志'         #OA系统用户名
 pwd='xiaogao316LCZ!'     #OA系统用户名
 
 DEFAULT_COMPANY='资产公司'
+DEFAULT_YEAR='2021'
 DEFAULT_START='2021-01-01'
 DEFAULT_END='2021-12-31'
 
