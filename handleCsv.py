@@ -1,10 +1,12 @@
 import csv
-import pyecharts
+import os
 from pyecharts.charts import Bar
 from pyecharts import options as opts
 # 内置主题类型可查看 pyecharts.globals.ThemeType
 from pyecharts.globals import ThemeType
 import datetime
+
+from pyecharts.options.global_options import LegendOpts
 created_time=datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
 count_by_depart={
   "纪检部":[0,0,0,0,0,0,0,0,0,0,0,0],
@@ -17,24 +19,35 @@ count_by_depart={
   "房地产运营部":[0,0,0,0,0,0,0,0,0,0,0,0],
   "机械部":[0,0,0,0,0,0,0,0,0,0,0,0]
 }
-with open('./data/2021-07-08-10-46-43.csv','r') as fp:
-  reader=csv.reader(fp)
-  next(reader)
-  for x in reader:
-    name=x[2]
-    depart=x[3]
-    month=x[4][5:7].replace('0', '')
-    #判断多部门
-    if (depart.find('、')!=-1):
-      depart_list=depart.split('、')
-      #去重
-      new_depart_list=list(set(depart_list))
-      #累加
-      for item in new_depart_list:
-        count_by_depart[item][int(month)-1]=count_by_depart[item][int(month)-1]+1
-    else:
-      count_by_depart[depart][int(month)-1]=count_by_depart[depart][int(month)-1]+1
-  print(count_by_depart)
+
+dataFilePath=os.path.abspath('data')
+# 遍历
+for file in os.listdir(dataFilePath) :
+  # print(file)
+  csvPath=os.path.join(dataFilePath,file)
+  print(csvPath)
+  with open(csvPath,'r') as fp:
+    reader=csv.reader(fp)
+    next(reader)
+    for x in reader:
+      name=x[2]
+      depart=x[3]
+      month=x[4][5:7].replace('0', '')
+      #判断多部门
+      if (depart.find('、')!=-1):
+        depart_list=depart.split('、')
+        #去重
+        new_depart_list=list(set(depart_list))
+        #累加
+        for item in new_depart_list:
+          count_by_depart[item][int(month)-1]=count_by_depart[item][int(month)-1]+1
+      #奇葩数据统计至办公室
+      elif(len(depart)>10):
+        count_by_depart['办公室'][int(month)-1]=count_by_depart['办公室'][int(month)-1]+1
+      else:
+        count_by_depart[depart][int(month)-1]=count_by_depart[depart][int(month)-1]+1
+
+    print(count_by_depart)
 # x轴数据
 M=[str(i)+'月' for i in range(1,13)]
 # for item in count_by_depart:
@@ -47,7 +60,10 @@ M=[str(i)+'月' for i in range(1,13)]
 #   )
 # 所有部门柱状图
 bar=(
-    Bar(init_opts=opts.InitOpts(theme=ThemeType.SHINE))
+    Bar(
+      init_opts=opts.InitOpts(theme=ThemeType.SHINE,width="1800px",height='800px'),
+      )
+    .set_colors(colors=["#c12e34","#e6b600","#efd2a5","#474f77","#2b821d","#339ca8","#5c2019","#b77760","#525357"])
     .add_xaxis(M)
     .add_yaxis("纪检部", count_by_depart["纪检部"])
     .add_yaxis("办公室", count_by_depart["办公室"])
@@ -58,6 +74,8 @@ bar=(
     .add_yaxis("房地产管理部", count_by_depart["房地产管理部"])
     .add_yaxis("房地产运营部", count_by_depart["房地产运营部"])
     .add_yaxis("机械部", count_by_depart["机械部"])
-    .set_global_opts(title_opts=opts.TitleOpts(title=f"资产公司信息平台统计_{created_time}", subtitle="数量"))
+    .set_global_opts(title_opts=opts.TitleOpts(title=f"资产公司信息平台统计_{created_time}", subtitle="文章数量"))
+    .set_global_opts(legend_opts=opts.LegendOpts(type_="scroll"))
+    .set_global_opts(datazoom_opts=opts.DataZoomOpts(is_show=True))
 )
 bar.render(f"./charts/信息平台_资产公司_{created_time}.html")

@@ -14,24 +14,29 @@ created_time=datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
 web=Chrome()
 #打开登录界面 
 web.get('http://is.cfmcc.com/OA/MainPage.aspx')
-# 处理验证码
-# img=web.find_element_by_xpath('//*[@id="wrapper"]/div/table/tbody/tr/td[3]/img').screenshot_as_png
-# chaojiying=Chaojiying_Client(config.chaojiying_username, config.chaojiying_pwd, config.chaojiying_softid)
-# dic=chaojiying.PostPic(img,1902)
-# verify_code=dic['pic_str']
 # 填入登录信息
 web.find_element_by_xpath('//*[@id="txtUser"]').send_keys(config.username)
 web.find_element_by_xpath('//*[@id="txtPwd"]').send_keys(config.pwd)
-# web.find_element_by_xpath('//*[@id="txtCode"]').send_keys(verify_code)
-# 暂停
-time.sleep(3)
-# 点击登录
-web.find_element_by_xpath('//*[@id="Button1"]').click()
+# 自动验证处理验证码
+if(config.isAuto==True):
+  img=web.find_element_by_xpath('//*[@id="wrapper"]/div/table/tbody/tr/td[3]/img').screenshot_as_png
+  chaojiying=Chaojiying_Client(config.chaojiying_username, config.chaojiying_pwd, config.chaojiying_softid)
+  dic=chaojiying.PostPic(img,1902)
+  verify_code=dic['pic_str']
+  web.find_element_by_xpath('//*[@id="txtCode"]').send_keys(verify_code)
+  # 延迟后登陆
+  time.sleep(2)
+  web.find_element_by_xpath('//*[@id="Button1"]').click()
+elif(config.isAuto==False):
+  # 延迟后登录
+  time.sleep(config.delayTime)
+  web.find_element_by_xpath('//*[@id="Button1"]').click()
+
 # 跳转至公共信息链接
 web.get('http://is.cfmcc.com/OA/SysFolder/AppFrame/AppQuery.aspx?tblName=Q_WebNews_Query&condition=CatCode%20like%20[QUOTES]04%[QUOTES]')
 time.sleep(1.5)
 # 填入搜索信息
-web.find_element_by_xpath('//*[@id="CorpName"]').send_keys(config.query_copm)
+web.find_element_by_xpath('//*[@id="CorpName"]').send_keys(config.DEFAULT_COMPANY)
 # 清除日期 readonly js脚本
 js0='document.getElementById("IssueTime_0").removeAttribute("readonly")'
 js1='document.getElementById("IssueTime_1").removeAttribute("readonly")'
@@ -44,8 +49,8 @@ web.execute_script(js1)
 web.execute_script(js_changevalue)
 web.execute_script(js_changetext)
 # 输入查询日期
-web.find_element_by_xpath('//*[@id="IssueTime_0"]').send_keys(config.query_date0)
-web.find_element_by_xpath('//*[@id="IssueTime_1"]').send_keys(config.query_date1)
+web.find_element_by_xpath('//*[@id="IssueTime_0"]').send_keys(config.DEFAULT_START)
+web.find_element_by_xpath('//*[@id="IssueTime_1"]').send_keys(config.DEFAULT_END)
 # 选择页码
 web.find_element_by_xpath('//*[@id="griddiv"]/div/div[8]/div[1]/div[1]/select/option[7]').click()
 # 暂停
