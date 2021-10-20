@@ -32,7 +32,9 @@ for file in os.listdir(dataFilePath) :
     for x in reader:
       name=x[2]
       depart=x[3]
-      month=x[4][5:7].replace('0', '')
+      month=int(x[4][5:7])
+
+
       #判断多部门
       if (depart.find('、')!=-1):
         depart_list=depart.split('、')
@@ -40,13 +42,12 @@ for file in os.listdir(dataFilePath) :
         new_depart_list=list(set(depart_list))
         #累加
         for item in new_depart_list:
-          count_by_depart[item][int(month)-1]=count_by_depart[item][int(month)-1]+1
+          count_by_depart[item][month-1]=count_by_depart[item][month-1]+1
       #奇葩数据统计至办公室
       elif(len(depart)>10):
-        count_by_depart['办公室'][int(month)-1]=count_by_depart['办公室'][int(month)-1]+1
+        count_by_depart['办公室'][month-1]=count_by_depart['办公室'][month-1]+1
       else:
-        count_by_depart[depart][int(month)-1]=count_by_depart[depart][int(month)-1]+1
-
+        count_by_depart[depart][month-1]=count_by_depart[depart][month-1]+1
     print(count_by_depart)
 # x轴数据
 M=[str(i)+'月' for i in range(1,13)]

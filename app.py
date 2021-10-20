@@ -98,7 +98,7 @@ for url in url_list:
       # 指示器
       i=0
       for span in span_list:
-        #第一层span遍历
+        #第一层span遍历w
         i=i+1
         if(is_author(span.text.strip())):
           author_span_list.append(span.text)
