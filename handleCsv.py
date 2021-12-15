@@ -33,8 +33,6 @@ for file in os.listdir(dataFilePath) :
       name=x[2]
       depart=x[3]
       month=int(x[4][5:7])
-
-
       #判断多部门
       if (depart.find('、')!=-1):
         depart_list=depart.split('、')
